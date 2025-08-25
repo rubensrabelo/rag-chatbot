@@ -1,12 +1,21 @@
-from langchain_openai import ChatOpenAI
+from langchain_community.llms import HuggingFaceEndpoint
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from typing import List
-from langchain_core.documents import Document
-import os
 from chroma_utils import vectorstore
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
+
+llm = HuggingFaceEndpoint(
+    endpoint_url="https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
+    model_kwargs={"huggingfacehub_api_key": HUGGINGFACE_API_KEY}
+)
 
 retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
 
@@ -34,9 +43,13 @@ qa_prompt = ChatPromptTemplate.from_messages([
 ])
 
 
-def get_rag_chain(model="gpt-4o-mini"):
-    llm = ChatOpenAI(model=model)
+def get_rag_chain(model="mistralai/Mistral-7B-Instruct-v0.2"):
+    llm = HuggingFaceEndpoint(
+        endpoint_url=f"https://api-inference.huggingface.co/models/{model}",
+        huggingfacehub_api_key="SUA_CHAVE_HUGGINGFACE"
+    )
+
     history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
-    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)    
+    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
     return rag_chain

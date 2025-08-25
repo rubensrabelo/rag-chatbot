@@ -6,6 +6,8 @@ from datetime import datetime
 class ModelName(str, Enum):
     GPT4_O = "gpt-4o"
     GPT4_O_MINI = "gpt-4o-mini"
+    MISTRAL = "mistralai/Mistral-7B-Instruct-v0.2"
+    TINYLLAMA = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 
 class QueryInput(BaseModel):
