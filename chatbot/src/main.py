@@ -1,38 +1,29 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from chain import process
-import uvicorn
+from fastapi import FastAPI, UploadFile, Form
+from pdf_utils import extract_text_from_pdf
+from vector_store import create_chroma_store, get_context
+from llm import generate_answer
 
-app = FastAPI(title="Chatbot API", 
-              description="API para chatbot com UAE-Large-V1 e FLAN-T5-Large",
-              version="1.0.0")
+from config import HUGGINGFACE_API_KEY
 
-
-class ChatRequest(BaseModel):
-    question: str
-
-
-class ChatResponse(BaseModel):
-    answer: str
-    embedding: list
-    embedding_full_size: int
+app = FastAPI()
+db = None  # Banco vetorial global
 
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the chatbot API!", "status": "active"}
+    return {"message": "Welcome to chatbot!"}
 
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
-    try:
-        result = process(req.question)
-        return result
-    except Exception as e:
-        print(f"[ERROR] {str(e)}")
-        raise HTTPException(status_code=500, detail="Erro interno no processamento da pergunta")
+@app.post("/upload")
+async def upload_pdf(file: UploadFile):
+    global db
+    content = extract_text_from_pdf(await file.read())
+    db = create_chroma_store(content)
+    return {"message": "PDF processado com sucesso"}
 
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy", "model_embedding": "WhereIsAI/UAE-Large-V1", "model_llm": "google/flan-t5-large"}
+@app.post("/ask")
+async def ask_question(question: str = Form(...)):
+    context = get_context(db, question)
+    answer = generate_answer(context, question, HUGGINGFACE_API_KEY)
+    return {"answer": answer}
