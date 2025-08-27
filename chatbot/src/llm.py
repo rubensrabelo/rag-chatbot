@@ -1,24 +1,22 @@
-import requests
+from huggingface_hub import InferenceClient
 
 
 def generate_answer(context: str, question: str, hf_token: str) -> str:
-    prompt = f"Contexto:\n{context}\n\nPergunta: {question}\nResposta:"
     try:
-        response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-            headers={"Authorization": f"Bearer {hf_token}"},
-            json={"inputs": prompt}
+        client = InferenceClient(token=hf_token)
+
+        prompt = f"Contexto:\n{context}\n\nPergunta: {question}\nResposta:"
+
+        completion = client.chat.completions.create(
+            model="deepseek-ai/DeepSeek-V3-0324",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
         )
 
-        if response.status_code != 200:
-            return f"Erro HTTP {response.status_code}: {response.text}"
-
-        result = response.json()
-        if isinstance(result, list) and "generated_text" in result[0]:
-            return result[0]["generated_text"]
-        elif "error" in result:
-            return f"Erro da API Hugging Face: {result['error']}"
-        else:
-            return "Resposta inesperada da API."
+        return completion.choices[0].message.content
     except Exception as e:
         return f"Erro ao processar resposta: {str(e)}"

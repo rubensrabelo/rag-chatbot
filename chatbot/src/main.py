@@ -6,7 +6,7 @@ from llm import generate_answer
 from config import HUGGINGFACE_API_KEY
 
 app = FastAPI()
-db = None  # Banco vetorial global
+db = None
 
 
 @app.get("/")
