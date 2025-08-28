@@ -1,10 +1,12 @@
 from fastapi import FastAPI, UploadFile, Form
+import uuid
+
 from pdf_utils import extract_text_from_pdf
 from vector_store import create_chroma_store, get_context
 from llm import generate_answer
 from config import HUGGINGFACE_API_KEY
 from logging_utils import LogConfig, SessionLogger
-import uuid
+from schemas import MessageResponse
 
 LogConfig().setup()
 logger = SessionLogger()
@@ -18,15 +20,15 @@ app = FastAPI()
 db = None
 
 
-@app.get("/")
-def home():
+@app.get("/", response_model=MessageResponse)
+def home() -> MessageResponse:
     session_id = generate_session_id()
     logger.log(session_id, "Endpoint '/' acessado")
-    return {"message": "Welcome to chatbot!"}
+    return MessageResponse(message="Welcome to chatbot!")
 
 
-@app.post("/upload")
-async def upload_pdf(file: UploadFile):
+@app.post("/upload", response_model=MessageResponse)
+async def upload_pdf(file: UploadFile) -> MessageResponse:
     global db
     session_id = generate_session_id()
     logger.log(session_id, f"Upload iniciado: {file.filename}")
@@ -35,11 +37,11 @@ async def upload_pdf(file: UploadFile):
     db = create_chroma_store(content)
 
     logger.log(session_id, "PDF processado com sucesso")
-    return {"message": "PDF processed successfully"}
+    return MessageResponse(message="PDF processed successfully")
 
 
-@app.post("/ask")
-async def ask_question(question: str = Form(...)):
+@app.post("/ask", response_model=MessageResponse)
+async def ask_question(question: str = Form(...)) -> MessageResponse:
     session_id = generate_session_id()
     logger.log(session_id, f"Pergunta recebida: {question}")
 
@@ -47,4 +49,4 @@ async def ask_question(question: str = Form(...)):
     answer = generate_answer(context, question, HUGGINGFACE_API_KEY)
 
     logger.log(session_id, f"Resposta gerada: {answer}")
-    return {"answer": answer}
+    return MessageResponse(message=answer)
