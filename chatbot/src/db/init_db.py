@@ -1,9 +1,20 @@
-from sqlmodel import create_engine, Session
+import sqlite3
+from sqlmodel import SQLModel
+from sqlalchemy import event, Engine
 
-from config import URL_DATABASE
-
-engine = create_engine(URL_DATABASE)
+from .engine import engine
 
 
-def get_session():
-    return Session(engine)
+def create_db_and_tables() -> None:
+    SQLModel.metadata.create_all(engine)
+
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(
+    dbapi_connection,
+    connection_record
+) -> None:
+    if type(dbapi_connection) is sqlite3.Connection:
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
