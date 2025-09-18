@@ -3,7 +3,7 @@ from fastapi import APIRouter, Form
 from utils import generate_session_id
 from services.vector_store import get_context
 from services.llm import generate_answer
-from config.config import HUGGINGFACE_API_KEY
+from config import HUGGINGFACE_API_KEY
 from logging_utils import LogConfig, SessionLogger
 from schemas import MessageResponse
 
