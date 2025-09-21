@@ -8,7 +8,7 @@ from services.llm import generate_answer
 from config import HUGGINGFACE_API_KEY
 from logging_utils import LogConfig, SessionLogger
 from schemas.message_response import MessageResponse
-from services.history_service import save_history, get_history_context 
+from services.history_service import save_history, get_history_context
 
 LogConfig().setup()
 logger = SessionLogger()
