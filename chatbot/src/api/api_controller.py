@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from routes import (
+from .routes import (
     ask_router,
     upload_router,
     home_router

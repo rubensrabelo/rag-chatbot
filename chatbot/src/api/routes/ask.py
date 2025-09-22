@@ -1,32 +1,35 @@
-from fastapi import APIRouter, Form, Depends
+from fastapi import APIRouter, HTTPException, Form, Depends
 from sqlmodel import Session
 
 from db.session import get_session
-from utils import generate_session_id
-from services.vector_store import get_context
-from services.llm import generate_answer
+from api.services.vector_store import get_context
+from api.services.llm import generate_answer
+from api.state.vector_store_state import get_db
+from api.services.history_service import save_history, get_history_context
 from config import HUGGINGFACE_API_KEY
 from logging_utils import LogConfig, SessionLogger
 from schemas.message_response import MessageResponse
-from services.history_service import save_history, get_history_context
 
 LogConfig().setup()
 logger = SessionLogger()
 
 router = APIRouter()
-db = None
 
 
 @router.post("/", response_model=MessageResponse)
 async def ask_question(
     question: str = Form(...),
-    session_id: str = Form(None),
+    session_id: str = Form(...),
     session: Session = Depends(get_session)
 ) -> MessageResponse:
-    if not session_id:
-        session_id = generate_session_id()
-
     logger.log(session_id, f"Question received: {question}")
+
+    db = get_db(session_id)
+    if not db:
+        raise HTTPException(
+            status_code=400,
+            detail="No PDFs were uploaded for this session."
+        )
 
     history_context = get_history_context(session, session_id)
     semantic_context = get_context(db, question)
