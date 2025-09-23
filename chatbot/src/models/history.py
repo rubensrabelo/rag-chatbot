@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 class History(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     session_id: str
-    timestamp: datetime = Field(default_factory=timezone.utc)
+    timestamp: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc)
+    )
     question: str
     answer: str

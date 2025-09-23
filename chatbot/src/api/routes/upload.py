@@ -16,7 +16,7 @@ router = APIRouter()
 @router.post("/upload", response_model=MessageResponse)
 async def upload_pdf(
     file: UploadFile,
-    session_id: str = Form(None)
+    session_id: str | None = Form(None)
 ) -> MessageResponse:
     if not session_id:
         session_id = generate_session_id()
