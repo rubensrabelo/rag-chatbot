@@ -3,13 +3,25 @@ import logging
 import os
 
 
+# Quebrar essa classe em outras diferentes
 @dataclass
 class LogConfig:
+    """
+    Configuração de logging para a aplicação.
+    """
+
     log_dir: str = "logs"
     log_name: str = "app.log"
     level: int = logging.INFO
 
     def setup(self):
+        """
+        Inicializa o sistema de logging.
+
+        - Cria o diretório de logs, se necessário.
+        - Configura o logger raiz com handlers para arquivo e console.
+        - Aplica formatação padrão com timestamp, nível e mensagem.
+        """
         os.makedirs(self.log_dir, exist_ok=True)
         log_path = os.path.join(self.log_dir, self.log_name)
 
