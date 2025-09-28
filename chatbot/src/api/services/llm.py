@@ -2,6 +2,10 @@ from huggingface_hub import InferenceClient
 
 
 def generate_answer(context: str, question: str, hf_token: str) -> str:
+    """
+    Gera uma resposta baseada em um contexto e uma pergunta usando
+    um modelo da Hugging Face.
+    """
     try:
         client = InferenceClient(token=hf_token)
 

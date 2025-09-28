@@ -22,6 +22,10 @@ async def ask_question(
     session_id: str = Form(...),
     session: Session = Depends(get_session)
 ) -> MessageResponse:
+    """
+    Recebe uma pergunta do usuário e retorna
+    uma resposta gerada com base no contexto da sessão.
+    """
     logger.log(session_id, f"Question received: {question}")
 
     db = get_db(session_id)

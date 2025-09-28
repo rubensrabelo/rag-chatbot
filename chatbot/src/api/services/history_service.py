@@ -9,12 +9,18 @@ def save_history(
         question: str,
         answer: str
 ) -> History:
+    """
+    Salva uma interação no histórico da sessão.
+    """
     entry = History(session_id=session_id, question=question, answer=answer)
     session.add(entry)
     session.commit()
 
 
 def get_history_context(session: Session, session_id: str) -> str:
+    """
+    Recupera o histórico completo da sessão como contexto formatado.
+    """
     statement = (
         select(History)
         .where(History.session_id == session_id)

@@ -18,6 +18,10 @@ async def upload_pdf(
     file: UploadFile,
     session_id: str | None = Form(None)
 ) -> MessageResponse:
+    """
+    Processa o upload de um arquivo PDF
+    e cria uma base vetorial para a sessão.
+    """
     if not session_id:
         session_id = generate_session_id()
 
