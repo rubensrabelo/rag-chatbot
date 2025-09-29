@@ -2,15 +2,15 @@
 
 ## MVP
 - [ ] Upload e indexação de documentos
-- [ ] Chat com histórico
-- [ ] Escolha de modelos GPT
+- [ ] Chat com histórico de conversas
+- [ ] Escolha de modelos GPT (Hugging Face)
 
 ## Fase 2
-- [ ] Autenticação de usuários
-- [ ] Frontend completo em React
-- [ ] Cache de respostas
+- [ ] Implementar autenticação de usuários (JWT)
+- [ ] Desenvolver frontend completo em React
+- [ ] Implementar cache de respostas
 
 ## Futuro
 - [ ] Deploy com Docker
 - [ ] Testes automatizados
-- [ ] Suporte multilíngue
+- [ ] Suporte a múltiplos idiomas
