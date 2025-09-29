@@ -1,72 +1,44 @@
-# RAG Chatbot com FastAPI, LangChain e React
+# RAG Chatbot · FastAPI + LangChain + React
 
-Este projeto é uma API inteligente baseada em **RAG (Retrieval-Augmented Generation)**, construída com **FastAPI**, **LangChain** e integrada com um frontend em **React**. O objetivo é criar um chatbot capaz de responder perguntas com base em documentos enviados pelo usuário, utilizando modelos de linguagem do Hugging Face.
-
----
-
-## Funcionalidades
-
-- **Chat com RAG**: Respostas contextualizadas com base em documentos e histórico de conversa.
-- **Upload de documentos**: Suporte para `.pdf`.
-
----
-
-## Tecnologias Utilizadas
-
-| Camada        | Ferramentas                          |
-|---------------|--------------------------------------|
-| Backend       | FastAPI, LangChain, Chroma, SQLite   |
-| Frontend      | React (em desenvolvimento)           |
-| Embeddings    | Hugging Face Embeddings              |
-| Vetor Store   | ChromaDB                             |
-| Ambiente      | Gerenciado com `uv` (super rápido!)  |
-
----
-
-## Instalação com `uv` (Windows)
-
-```bash
-# Instalar uv (se necessário)
-pip install uv
-
-# Criar ambiente virtual
-uv venv .venv
-.venv\Scripts\activate
-
-# Inicializar projeto
-uv init
-
-# Instalar dependências
-uv add pyproject.toml
-```
+API inteligente baseada em **RAG (Retrieval-Augmented Generation)**, construída com **FastAPI** e **LangChain**, integrada a um frontend em **React**.
+Permite criar um chatbot capaz de responder perguntas com base em documentos enviados pelo usuário, utilizando modelos de linguagem do **Hugging Face**.
 
 ---
 
 ## Estrutura do Projeto
 
-```
-
-```
-
----
-
-## Como rodar
-
 ```bash
-uvicorn main:app --reload
+rag-chatbot/
+├── README.md              # Visão geral do projeto
+├── chatbot/               # Código do backend (FastAPI + LangChain)
+├── frontend/              # Código do frontend (React)
+└── docs/
+    ├── roadmap.md         # Roadmap do projeto (backend + frontend)
+    ├── next_steps.md      # Próximas tarefas detalhadas
+    ├── session_logs.md    # Diário de desenvolvimento
+    └── references.md      # Links e materiais úteis
 ```
 
-Acesse a API em `http://localhost:8000` e interaja com os endpoints via Swagger ou seu frontend em React.
+---
+
+## Documentação
+
+Toda a documentação do sistema está centralizada na pasta [`docs/`](docs/), abrangendo **backend e frontend**:
+
+* [Roadmap](docs/roadmap.md) – objetivos gerais e fases do projeto
+* [Próximos Passos](docs/next_steps.md) – tarefas detalhadas e prioridades
+* [Logs de Desenvolvimento](docs/session_logs.md) – histórico das sessões de trabalho
+* [Referências](docs/references.md) – links, tutoriais e materiais de apoio
 
 ---
 
-## Melhorias Futuras
+## Tecnologias Utilizadas
 
-
----
-
-## Créditos
-
-Este projeto foi inspirado no tutorial da [FutureSmart AI sobre RAG com FastAPI e LangChain](https://blog.futuresmart.ai/building-a-production-ready-rag-chatbot-with-fastapi-and-langchain?source=more_series_bottom_blogs).
+| Camada         | Ferramentas / Frameworks    |
+| -------------- | --------------------------- |
+| Backend        | FastAPI, LangChain          |
+| Frontend       | React                       |
+| Embeddings     | Hugging Face models         |
+| Banco de Dados | ChromaDB, SQLite (ou outro) |
 
 ---
