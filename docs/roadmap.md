@@ -1,16 +1,16 @@
 # Roadmap - RAG Chatbot
 
 ## MVP
-- [ ] Upload e indexação de documentos
-- [ ] Chat com histórico de conversas
-- [ ] Escolha de modelos GPT (Hugging Face)
+- [x] Upload e indexação de documentos
+- [x] Chat com histórico de conversas
+- [ ] Revisão e melhoria do código
 
-## Fase 2
+## Fase 2 ?
 - [ ] Implementar autenticação de usuários (JWT)
 - [ ] Desenvolver frontend completo em React
 - [ ] Implementar cache de respostas
 
-## Futuro
+## Futuro ?
 - [ ] Deploy com Docker
 - [ ] Testes automatizados
 - [ ] Suporte a múltiplos idiomas
