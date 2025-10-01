@@ -7,8 +7,10 @@
 
 ## Backend
 - [ ] Melhorar o método de upload
-    - [ ] Listar documentos
-    - [ ] Deletar documentos
+    - [x] Criar um model no SQLAlchemy
+    - [x] Criar um service p/ a regra de negócios referentes a tabela de PDFs
+    - [ ] Criar uma rota para Listar documentos
+    - [ ] Criar uma rota para  Deletar documentos
     - [ ] Aceitar mais de um tipo de arquivo?
 - [ ] Melhorar os esquemas com o pydantic
     - [] Entrada de dados

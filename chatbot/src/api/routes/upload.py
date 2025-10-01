@@ -29,7 +29,6 @@ async def upload_pdf(
 
     content = extract_text_from_pdf(await file.read())
     db = create_chroma_store(content)
-
     set_db(session_id, db)
 
     logger.log(session_id, "PDF processed successfully")
