@@ -35,6 +35,9 @@ def delete_pdf_record(
     session: Session,
     pdf_id: int
 ) -> bool:
+    """
+    Remove um registro de PDF pelo ID.
+    """
     pdf = session.get(PDFRecord, pdf_id)
     if not pdf:
         return False
